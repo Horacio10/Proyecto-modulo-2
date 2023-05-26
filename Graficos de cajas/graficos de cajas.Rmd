@@ -1,0 +1,61 @@
+---
+title: "Grafico boxplot"
+author: "Teddy Alvarez Zarate"
+output: github_document
+---
+
+```{r }
+library(tidyverse)
+library(readxl)
+setwd("~/Experto en ciencia de datos/Modulo 2/Proyecto fin de modulo 2")
+```
+
+## Graficos de barras
+
+Para contruir el grafico de cajas, se tomo en cuenta los datos correspondientes a las exportacione de Bolivia
+
+```{r }
+datos_exp <- read_excel("exportaciones.xlsx")
+datos_exp <- datos_exp%>%
+mutate(Sector=fct_recode(Sector, "AGR, GNDRIA, CAZA SILV Y PESCA"= "AGRICULTURA, GANADERÍA, CAZA SILVICULTURA Y PESCA"))
+```
+
+## Limpiando datos
+
+Se procedio a reemplazar los datos NA por 0 (cero)
+
+```{r }
+```
+
+
+```{r }
+datos_exp1 <- datos_exp%>%
+mutate(Sector=as.factor(Sector))
+
+datos_exp1 <- datos_exp1%>%
+mutate_all(~replace(., is.na(.),0))
+
+```
+
+
+```{r }
+datos_exp1 <- datos_exp1%>%
+    group_by(Anio, Sector)%>%
+summarise(Exportacion_media=mean(Valor), n=n(),.groups='drop')
+
+datos_exp1<-datos_exp1%>%
+  filter(Anio>2005)
+```
+
+
+
+```{r}
+ggplot(datos_exp1, aes(factor(Anio), Exportacion_media, fill=Sector))+
+geom_boxplot(show.legend = FALSE)+
+facet_wrap(~Sector, ncol=2, nrow=5)+
+theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+
+
+

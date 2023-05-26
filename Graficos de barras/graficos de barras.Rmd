@@ -1,0 +1,28 @@
+---
+title: "Graficos de barras"
+author: "Teddy Alvarez Zarate"
+date: "2023-05-25"
+output: github_document
+---
+
+```{r }
+library(tidyverse)
+library(readxl)
+setwd("~/Experto en ciencia de datos/Modulo 2/Proyecto fin de modulo 2/Graficos de barras")
+datos <- read_excel("export_import.xlsx")
+```
+
+## Generando las graficas de barras para importaciones y exportaciones
+
+Se han tomado en cuenta datos sobre las importacione y exportaciones de Bolivia, desde el año 1992 al 2023(p), medido en millones de usd
+
+```{r }
+ggplot(datos, aes(Anio, Importaciones))+
+geom_bar(stat = "identity")
+
+ggplot(datos, aes(Anio, Exportaciones))+
+geom_bar(stat = "identity")
+
+
+```
+

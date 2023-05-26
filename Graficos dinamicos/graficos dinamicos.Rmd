@@ -1,0 +1,41 @@
+---
+title: "graficos dinamicos"
+author: "Teddy Alvarez Zarate"
+date: "2023-05-26"
+output: github_document
+---
+
+```{r }
+library(tidyverse)
+library(readxl)
+library(gganimate)
+library(animation)
+library(dygraphs)
+setwd("~/Experto en ciencia de datos/Modulo 2/Proyecto fin de modulo 2/Graficos dinamicos")
+datos <- read_excel("importaciones.xlsx")
+```
+
+## Grafico de lineas animado
+
+
+```{r pressure, echo=FALSE}
+datos1 <- datos%>%
+  mutate_all(~replace(.,is.na(.),0))
+animado <- ggplot(datos1, aes(Anio, Valor, col=Subsector))+
+  geom_line()+
+  facet_wrap(~Sector, ncol = 2, nrow = 2)+
+  labs(title="Importaciones",x="Años", y="En millones de usd")+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+animado <- animado+transition_reveal(along = Anio)
+
+animado
+```
+
+```{r}
+ex_im <- read_excel("export_import.xlsx")
+
+dygraph(ex_im, main = "Evolucion de las exportaciones e importaciones")%>%
+  dyOptions(fillGraph = T, drawPoints = T)
+```
+

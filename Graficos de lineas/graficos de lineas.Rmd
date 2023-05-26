@@ -1,0 +1,27 @@
+---
+title: "Graficos de lineas"
+author: "Teddy Alvarez Zarate"
+date: "2023-05-25"
+output: github_document
+---
+```{r}
+library(tidyverse)
+library(readxl)
+setwd("~/Experto en ciencia de datos/Modulo 2")
+datos <- read_excel("importaciones.xlsx")
+```
+
+
+## Generando graficos de lineas
+
+Se han tomado en cuenta las variables Años y Valor de las importaciones y se los ha separado por sectores de importacion
+
+
+```{r}
+datos1 <- filter(datos, Anio>2005)
+
+ggplot(datos1, aes(Anio, Valor, col=Subsector))+
+geom_line()+
+facet_wrap(~Sector, ncol=2, nrow=2)+
+labs(title = "Importaciones", x="Años", y="Valor en millones de usd")+theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
